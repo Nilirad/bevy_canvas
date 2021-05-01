@@ -1,6 +1,6 @@
 # Bevy Canvas API
 
-An immediate mode 2D and 3D drawing API for Bevy game engine, inspired by HTML canvas.
+An immediate mode 2D drawing API for Bevy game engine.
 
 ![bevy_canvas showoff image](docs/readme_image.webp)
 

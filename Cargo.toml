@@ -1,14 +1,16 @@
 [package]
 authors = ["Federico Rinaldi <gisquerin@gmail.com>"]
+description = "An immediate mode 2D drawing API for Bevy game engine."
 edition = "2018"
+license = "MIT"
 name = "bevy_canvas"
 version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = {git = "https://github.com/bevyengine/bevy", branch = "main", default-features = false, features = ["render"]}
+bevy = {version = "0.5", default-features = false, features = ["render"]}
 tess = {package = "lyon_tessellation", version = "0.17"}
 
 [dev-dependencies]
-bevy = {git = "https://github.com/bevyengine/bevy", branch = "main"}
+bevy = "0.5"
