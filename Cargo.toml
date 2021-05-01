@@ -1,6 +1,8 @@
 [package]
 authors = ["Federico Rinaldi <gisquerin@gmail.com>"]
+description = "An immediate mode 2D drawing API for Bevy game engine."
 edition = "2018"
+license = "MIT"
 name = "bevy_canvas"
 version = "0.1.0"
 
