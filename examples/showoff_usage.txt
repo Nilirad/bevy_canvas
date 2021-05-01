@@ -1,0 +1,8 @@
+Thanks for trying out bevy_canvas!
+
+DEMO COMMANDS:
+Q-W: Line width (stroke mode only)
+A-S: Polygon radius
+Z-X: Number of sides
+F: Toggle draw mode (fill or stroke)
+C: Toggle color
