@@ -10,7 +10,7 @@
 //! ## Setup
 //!
 //! Don't forget to add the plugin and a 2d camera. Here's an example:
-//! ```
+//! ```ignore
 //! use bevy::prelude::*;
 //! use bevy_canvas::CanvasPlugin;
 //!
@@ -18,7 +18,8 @@
 //!     App::build()
 //!         .add_plugins(DefaultPlugins)
 //!         .add_plugin(bevy_canvas::CanvasPlugin)
-//!         .add_startup_system(setup.system());
+//!         .add_startup_system(setup.system())
+//!         .run();
 //! }
 //!
 //! fn setup(mut commands: Commands) {
