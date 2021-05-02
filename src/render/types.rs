@@ -44,16 +44,16 @@ impl StrokeVertexConstructor<Vertex> for VertexConstructor {
 }
 
 pub(crate) trait Conversion {
-    fn to_point(self) -> Point;
-    fn to_vector(self) -> Vector;
+    fn to_point(&self) -> Point;
+    fn to_vector(&self) -> Vector;
 }
 
 impl Conversion for Vec2 {
-    fn to_point(self) -> Point {
+    fn to_point(&self) -> Point {
         point(self.x, self.y)
     }
 
-    fn to_vector(self) -> Vector {
+    fn to_vector(&self) -> Vector {
         vector(self.x, self.y)
     }
 }
