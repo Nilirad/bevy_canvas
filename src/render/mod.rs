@@ -8,12 +8,12 @@ use bevy::{
     render::{
         camera::ActiveCameras,
         pass::{
-            LoadOp, Operations, PassDescriptor, RenderPassColorAttachmentDescriptor,
-            RenderPassDepthStencilAttachmentDescriptor, TextureAttachment,
+            LoadOp, Operations, PassDescriptor, RenderPassColorAttachment,
+            RenderPassDepthStencilAttachment, TextureAttachment,
         },
         pipeline::{
-            BindGroupDescriptor, BindType, BindingDescriptor, BindingShaderStage, BlendFactor,
-            BlendOperation, BlendState, ColorTargetState, ColorWrite, CompareFunction, CullMode,
+            BindGroupDescriptor, BindType, BindingDescriptor, BindingShaderStage, BlendComponent,
+            BlendFactor, BlendOperation, BlendState, ColorTargetState, ColorWrite, CompareFunction,
             DepthBiasState, DepthStencilState, FrontFace, IndexFormat, InputStepMode,
             MultisampleState, PipelineDescriptor, PipelineLayout, PolygonMode, PrimitiveState,
             PrimitiveTopology, StencilFaceState, StencilState, UniformProperty, VertexAttribute,
@@ -229,7 +229,7 @@ fn pass_descriptor(input: &ResourceSlots, sample_count: u32) -> PassDescriptor {
         .unwrap();
 
     PassDescriptor {
-        color_attachments: vec![RenderPassColorAttachmentDescriptor {
+        color_attachments: vec![RenderPassColorAttachment {
             attachment: TextureAttachment::Id(color_texture),
             resolve_target: None,
             ops: Operations {
@@ -237,7 +237,7 @@ fn pass_descriptor(input: &ResourceSlots, sample_count: u32) -> PassDescriptor {
                 store: true,
             },
         }],
-        depth_stencil_attachment: Some(RenderPassDepthStencilAttachmentDescriptor {
+        depth_stencil_attachment: Some(RenderPassDepthStencilAttachment {
             attachment: TextureAttachment::Id(depth_stencil_texture),
             depth_ops: Some(Operations {
                 load: LoadOp::Load,
@@ -281,13 +281,13 @@ fn pipeline_descriptor(shaders: &mut Assets<Shader>) -> PipelineDescriptor {
                     VertexAttribute {
                         name: "position".into(),
                         offset: 0,
-                        format: VertexFormat::Float3,
+                        format: VertexFormat::Float32x3,
                         shader_location: 0,
                     },
                     VertexAttribute {
                         name: "color".into(),
-                        offset: VertexFormat::Float4.get_size(),
-                        format: VertexFormat::Float4,
+                        offset: VertexFormat::Float32x4.get_size(),
+                        format: VertexFormat::Float32x4,
                         shader_location: 1,
                     },
                 ],
@@ -295,10 +295,12 @@ fn pipeline_descriptor(shaders: &mut Assets<Shader>) -> PipelineDescriptor {
         }),
         primitive: PrimitiveState {
             topology: PrimitiveTopology::TriangleList,
-            strip_index_format: Some(IndexFormat::Uint32),
+            strip_index_format: None,
             front_face: FrontFace::Cw,
-            cull_mode: CullMode::None,
+            cull_mode: None,
             polygon_mode: PolygonMode::Fill,
+            clamp_depth: false,
+            conservative: false,
         },
         depth_stencil: Some(DepthStencilState {
             format: TextureFormat::Depth32Float,
@@ -309,7 +311,6 @@ fn pipeline_descriptor(shaders: &mut Assets<Shader>) -> PipelineDescriptor {
                 slope_scale: 1.,
                 clamp: 1.,
             },
-            clamp_depth: false,
             stencil: StencilState {
                 front: StencilFaceState::IGNORE,
                 back: StencilFaceState::IGNORE,
@@ -319,16 +320,18 @@ fn pipeline_descriptor(shaders: &mut Assets<Shader>) -> PipelineDescriptor {
         }),
         color_target_states: vec![ColorTargetState {
             format: TextureFormat::default(),
-            color_blend: BlendState {
-                src_factor: BlendFactor::SrcAlpha,
-                dst_factor: BlendFactor::OneMinusSrcAlpha,
-                operation: BlendOperation::Add,
-            },
-            alpha_blend: BlendState {
-                src_factor: BlendFactor::One,
-                dst_factor: BlendFactor::One,
-                operation: BlendOperation::Add,
-            },
+            blend: Some(BlendState {
+                alpha: BlendComponent {
+                    src_factor: BlendFactor::One,
+                    dst_factor: BlendFactor::One,
+                    operation: BlendOperation::Add,
+                },
+                color: BlendComponent {
+                    src_factor: BlendFactor::SrcAlpha,
+                    dst_factor: BlendFactor::OneMinusSrcAlpha,
+                    operation: BlendOperation::Add,
+                },
+            }),
             write_mask: ColorWrite::ALL,
         }],
         shader_stages: ShaderStages {
