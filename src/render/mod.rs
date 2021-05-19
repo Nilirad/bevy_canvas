@@ -2,7 +2,7 @@ use std::mem::size_of;
 
 use bevy::{
     asset::{Assets, Handle, HandleUntyped},
-    core::AsBytes,
+    core::cast_slice,
     ecs::world::World,
     reflect::TypeUuid,
     render::{
@@ -143,7 +143,8 @@ impl Node for CanvasNode {
                 buffer_usage: BufferUsage::INDEX,
                 ..Default::default()
             },
-            &self.vertex_buffers.indices.as_bytes(),
+            //&self.vertex_buffers.indices.as_bytes(),
+            cast_slice(self.vertex_buffers.indices.as_slice()),
         );
 
         let vertex_buffer = render_resources.create_buffer_with_data(
@@ -151,7 +152,7 @@ impl Node for CanvasNode {
                 buffer_usage: BufferUsage::VERTEX,
                 ..Default::default()
             },
-            &self.vertex_buffers.vertices.as_bytes(),
+            cast_slice(&self.vertex_buffers.vertices.as_slice()),
         );
 
         let pass_descriptor = pass_descriptor(input, sample_count);
