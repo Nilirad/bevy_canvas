@@ -1,5 +1,5 @@
 use bevy::{
-    core::Byteable,
+    core::{Pod, Zeroable},
     math::{Vec2, Vec4},
     render::color::Color,
 };
@@ -16,7 +16,8 @@ pub(crate) struct Vertex {
     pub color: Vec4,
 }
 
-unsafe impl Byteable for Vertex {}
+unsafe impl Zeroable for Vertex {}
+unsafe impl Pod for Vertex {}
 
 type IndexType = u32;
 pub(crate) type BufferPair = tess::VertexBuffers<Vertex, IndexType>;
