@@ -152,11 +152,11 @@ impl Node for CanvasNode {
                 buffer_usage: BufferUsage::VERTEX,
                 ..Default::default()
             },
-            cast_slice(&self.vertex_buffers.vertices.as_slice()),
+            cast_slice(self.vertex_buffers.vertices.as_slice()),
         );
 
         let pass_descriptor = pass_descriptor(input, sample_count);
-        render_context.begin_pass(&pass_descriptor, &render_resource_bindings, &mut |pass| {
+        render_context.begin_pass(&pass_descriptor, render_resource_bindings, &mut |pass| {
             pass.set_pipeline(&pipeline);
             pass.set_bind_group(
                 0,
