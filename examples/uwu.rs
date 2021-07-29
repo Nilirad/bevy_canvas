@@ -6,16 +6,16 @@ use bevy::prelude::*;
 use bevy_canvas::{Canvas, DrawMode, Geometry, PathBuilder, StrokeOptions};
 
 fn main() {
-    App::build()
+    App::new()
         .add_plugins(DefaultPlugins)
         .add_plugin(bevy_canvas::CanvasPlugin)
         .add_startup_stage_after(
             StartupStage::Startup,
             "uwu:stage:camera_position",
-            SystemStage::single(move_camera.system()),
+            SystemStage::single(move_camera),
         )
-        .add_startup_system(setup.system())
-        .add_system(shapes.system())
+        .add_startup_system(setup_system)
+        .add_system(shapes_system)
         .insert_resource(Msaa { samples: 4 })
         .insert_resource(WindowDescriptor {
             title: "UwU".to_string(),
@@ -90,7 +90,7 @@ impl Geometry for Mouth {
     }
 }
 
-fn setup(mut commands: Commands) {
+fn setup_system(mut commands: Commands) {
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
 }
 
@@ -100,7 +100,7 @@ fn move_camera(mut query: Query<(&mut Transform,)>) {
     }
 }
 
-fn shapes(mut canvas: ResMut<Canvas>, time: Res<Time>) {
+fn shapes_system(mut canvas: ResMut<Canvas>, time: Res<Time>) {
     let t = time.time_since_startup().as_secs_f32();
     let owo_factor = (3.0 * t).cos() / 2.0 + 0.5;
     let color_a_factor = t.cos() / 2.0 + 0.5;

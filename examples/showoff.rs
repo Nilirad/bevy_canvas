@@ -23,12 +23,12 @@ struct MyShape {
 fn main() {
     println!(include_str!("showoff_usage.txt"));
 
-    App::build()
+    App::new()
         .add_plugins(DefaultPlugins)
         .add_plugin(bevy_canvas::CanvasPlugin)
-        .add_startup_system(setup.system())
-        .add_system(handle_input.system())
-        .add_system(draw_shape.system())
+        .add_startup_system(setup_system)
+        .add_system(handle_input_system)
+        .add_system(draw_shape_system)
         .insert_resource(Msaa { samples: 4 })
         .insert_resource(WindowDescriptor {
             title: "Shapes".to_string(),
@@ -51,11 +51,11 @@ fn main() {
         .run();
 }
 
-fn setup(mut commands: Commands) {
+fn setup_system(mut commands: Commands) {
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
 }
 
-fn draw_shape(mut canvas: ResMut<Canvas>, my_shape: Res<MyShape>) {
+fn draw_shape_system(mut canvas: ResMut<Canvas>, my_shape: Res<MyShape>) {
     canvas.draw(
         &my_shape.shape,
         my_shape.draw_mode,
@@ -63,7 +63,7 @@ fn draw_shape(mut canvas: ResMut<Canvas>, my_shape: Res<MyShape>) {
     );
 }
 
-fn handle_input(keys: Res<Input<KeyCode>>, mut my_shape: ResMut<MyShape>) {
+fn handle_input_system(keys: Res<Input<KeyCode>>, mut my_shape: ResMut<MyShape>) {
     if let RegularPolygonFeature::Radius(ref mut r) = my_shape.shape.feature {
         if keys.just_pressed(KeyCode::A) {
             *r = (*r - 10.0).clamp(20.0, 200.0);
