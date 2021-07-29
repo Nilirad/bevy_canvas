@@ -18,11 +18,11 @@
 //!     App::build()
 //!         .add_plugins(DefaultPlugins)
 //!         .add_plugin(bevy_canvas::CanvasPlugin)
-//!         .add_startup_system(setup.system())
+//!         .add_startup_system(setup_system)
 //!         .run();
 //! }
 //!
-//! fn setup(mut commands: Commands) {
+//! fn setup_system(mut commands: Commands) {
 //!     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
 //! }
 //! ```
@@ -31,7 +31,7 @@
 //!
 //! For the common usage guide, see the [plugin documentation](CanvasPlugin).
 
-use bevy::app::{AppBuilder, Plugin};
+use bevy::app::{App, Plugin};
 
 mod canvas;
 pub mod common_shapes;
@@ -76,9 +76,9 @@ pub use tess::{path::Path, FillOptions, FillRule, LineCap, LineJoin, Orientation
 pub struct CanvasPlugin;
 
 impl Plugin for CanvasPlugin {
-    fn build(&self, app: &mut AppBuilder) {
+    fn build(&self, app: &mut App) {
         app.insert_resource(Canvas::default());
 
-        render::setup_canvas_node(app.world_mut());
+        render::setup_canvas_node(&mut app.world);
     }
 }
