@@ -4,7 +4,7 @@ description = "An immediate mode 2D drawing API for Bevy game engine."
 edition = "2018"
 license = "MIT"
 name = "bevy_canvas"
-version = "0.1.0"
+version = "0.1.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
