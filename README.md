@@ -7,6 +7,8 @@
 [![CI](https://github.com/Nilirad/bevy_canvas/actions/workflows/ci.yml/badge.svg)](https://github.com/Nilirad/bevy_canvas/actions/workflows/ci.yml)
 [![Bevy tracking](https://img.shields.io/badge/Bevy%20tracking-main-lightblue)](https://github.com/bevyengine/bevy/blob/main/docs/plugins_guidelines.md#main-branch-tracking)
 
+> ⚠️ **NOTE.** _This crate is now deprecated. Use another plugin, like `bevy_prototype_lyon` instead._
+
 An unofficial immediate mode 2D drawing API for [Bevy game engine](https://github.com/bevyengine/bevy).
 
 Check the documentation or the examples to know how to use this API.
